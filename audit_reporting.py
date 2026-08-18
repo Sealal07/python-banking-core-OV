@@ -1,4 +1,4 @@
-import sqlalchemy import select, or_
+from sqlalchemy import select, or_
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from models import Client, Account, TransactionHistory
@@ -7,7 +7,7 @@ async def generate_audit_report(
         session: AsyncSession,
         client_id: int
 ):
-    stmt = select(Client).where(Client.c.id == client_id).options(selectinload(Client.accounts))
+    stmt = select(Client).where(Client.id == client_id).options(selectinload(Client.accounts))
     res = await session.execute(stmt)
     client = res.scalar_one_or_none()
     if not client:

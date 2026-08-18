@@ -4,8 +4,7 @@ from models import Account, TransactionHistory
 
 async def transfer_funds(
         session: AsyncSession,
-        sender_account: Account,
-        recipient_account_id: int,
+        sender_account_id: Account,
         receiver_account_id: int,
         amount: float,
 ) -> bool:
@@ -32,7 +31,7 @@ async def transfer_funds(
         )
         sender = sender_res.scalar_one_or_none()
         receiver = receiver_res.scalar_one_or_none()
-        if not or not receiver:
+        if not sender or not receiver:
             raise ValueError('Один или оба счёта не найдены')
         if not sender.is_active or not receiver.is_active:
             raise ValueError('Один или оба счёта неактивны')
