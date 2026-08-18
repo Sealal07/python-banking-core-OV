@@ -8,9 +8,9 @@ class Client(Base):
     __tablename__ = 'clients'
     id: Mapped[int] = mapped_column(primary_key=True)
     full_name: Mapped[str] = mapped_column(String, nullable=False)
-    email: Mapped[str] = mapped_column(String, unique=True, nullable=Fals)
+    email: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
-    accounts: Mapped[List['Account']] = relationship('Account', backref='client' cascade='all, delete-orphan')
+    accounts: Mapped[List['Account']] = relationship('Account', backref='client', cascade='all, delete-orphan')
 class Account(Base):
     __tablename__ = 'accounts'
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -29,6 +29,6 @@ class TransactionHistory(Base):
         ForeignKey('account.id'), nullable=False
     )
     amount: Mapped[float] = mapped_column(Numeric(12,2), nullable=False)
-    status: Mapped[stl] = mapped_column(String(10), nullable=False)
+    status: Mapped[str] = mapped_column(String(10), nullable=False)
     timestamp: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     description: Mapped[Optional[str]] = mapped_column(String, nullable=True)
